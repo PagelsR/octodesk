@@ -65,12 +65,25 @@ jobs:
           TEAM=$(github_name "$(echo $JSON | jq -r '.team.text' | sed -E 's/ -.*//')")
           echo "repo_name=${NAME}" >> "$GITHUB_OUTPUT"
           echo "team_name=${TEAM}" >> "$GITHUB_OUTPUT"
+
+
+
+      - name: Apply Naming Convention
+        id: repo-naming-convention
+        run: |
+          # map the team name to the team abbreviation
+          # ${{ steps.issue-values.outputs.team_name }} to abbreviation from config/naming-convention.yml
+          # ${{ github.repository_owner}} to abbreviation from config/naming-convention.yml
+          # final_name={{org}-{team}-{steps.issue-values.outputs.repo_name}}
+          # echo "repo_name=${final_name}" >> "$GITHUB_OUTPUT"
+
+
       - name: Create Repository
         id: create-repo
         uses: ./.github/actions/repository-create
         with:
-          repo-name: ${{ steps.issue-values.outputs.repo_name }}
-          team-name: ${{ steps.issue-values.outputs.team_name }}
+          repo-name: ${{ steps.repo-naming-convention.outputs.repo_name }}
+          team-name: ${{ steps.repo-naming-convention.outputs.team_name }}
           visibility: ${{ inputs.visibility }}
           token: ${{ steps.app-token.outputs.token }}
       - name: Add team to repository
