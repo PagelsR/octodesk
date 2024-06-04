@@ -89,14 +89,14 @@ jobs:
           sudo snap install yq
       
           # map the team name to the team abbreviation
-          team_abbr=$(yq e '.team."${{ steps.issue-values.outputs.team_name }}"' /config/naming-convention.yml)
+          team_abbr=$(yq e '.team."${{ steps.issue-values.outputs.team_name }}"' "${{ github.workspace }}/config/naming-convention.yml")
           if [[ -z "${team_abbr}" ]]; then
             echo "Error: No mapping found for team name"
             exit 1
           fi
 
           # map the organization name to the organization abbreviation
-          org_abbr=$(yq e '.organization."${{ steps.issue-values.outputs.org_name }}"' /config/naming-convention.yml)
+          org_abbr=$(yq e '.organization."${{ steps.issue-values.outputs.org_name }}"' "${{ github.workspace }}/config/naming-convention.yml")
           if [[ -z "${org_abbr}" ]]; then
             echo "Error: No mapping found for organization name"
             exit 1
