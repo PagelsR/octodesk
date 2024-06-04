@@ -63,19 +63,27 @@ jobs:
           }
           NAME=$(github_name "$(echo $JSON | jq -r '.name.text')")
           TEAM=$(github_name "$(echo $JSON | jq -r '.team.text' | sed -E 's/ -.*//')")
+          ORG=$($github_name "$(echo $JSON | jq -r '.organization.text')")
           echo "repo_name=${NAME}" >> "$GITHUB_OUTPUT"
           echo "team_name=${TEAM}" >> "$GITHUB_OUTPUT"
+          echo "org_name=${ORG}" >> "$GITHUB_OUTPUT"
 
 
 
       - name: Apply Naming Convention
         id: repo-naming-convention
         run: |
+          # Install yq to parse YAML files
+          sudo snap install yq
+      
           # map the team name to the team abbreviation
-          ${{ steps.issue-values.outputs.team_name }} to abbreviation from config/naming-convention.yml
-          ${{ github.repository_owner}} to abbreviation from config/naming-convention.yml
-          final_name={org}-{team}-{steps.issue-values.outputs.repo_name}
-          echo "repo_name=${final_name}" >> "$GITHUB_OUTPUT"
+          team_abbr=$(yq e '.team."${{ steps.issue-values.outputs.team_name }}"' /config/naming-convention.yml)
+          
+          # map the organization name to the organization abbreviation
+          org_abbr=$(yq e '.organization."${{ steps.issue-values.outputs.org_name }}"' /config/naming-convention.yml)
+      
+          final_name="${org_abbr}-${team_abbr}-${{ steps.issue-values.outputs.repo_name }}"
+          echo "repo_name=${final_name}" >> "$GITHUB_ENV"
 
 
       - name: Create Repository
