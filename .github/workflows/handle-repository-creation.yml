@@ -111,7 +111,7 @@ jobs:
         uses: ./.github/actions/repository-create
         with:
           repo-name: ${{ steps.repo-naming-convention.outputs.repo_name }}
-          team-name: ${{ steps.repo-naming-convention.outputs.team_name }}
+          team-name: ${{ steps.issue-values.outputs.team_name }}
           visibility: ${{ inputs.visibility }}
           token: ${{ steps.app-token.outputs.token }}
       - name: Add team to repository
