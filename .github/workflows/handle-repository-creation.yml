@@ -72,10 +72,10 @@ jobs:
         id: repo-naming-convention
         run: |
           # map the team name to the team abbreviation
-          # ${{ steps.issue-values.outputs.team_name }} to abbreviation from config/naming-convention.yml
-          # ${{ github.repository_owner}} to abbreviation from config/naming-convention.yml
-          # final_name={{org}-{team}-{steps.issue-values.outputs.repo_name}}
-          # echo "repo_name=${final_name}" >> "$GITHUB_OUTPUT"
+          ${{ steps.issue-values.outputs.team_name }} to abbreviation from config/naming-convention.yml
+          ${{ github.repository_owner}} to abbreviation from config/naming-convention.yml
+          final_name={org}-{team}-{steps.issue-values.outputs.repo_name}
+          echo "repo_name=${final_name}" >> "$GITHUB_OUTPUT"
 
 
       - name: Create Repository
