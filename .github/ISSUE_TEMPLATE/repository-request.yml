@@ -19,7 +19,7 @@ body:
         - public
         - internal
         - private
-      default: 2
+      default: 3
     validations:
       required: true
   - type: input
