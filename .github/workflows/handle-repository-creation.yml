@@ -68,11 +68,23 @@ jobs:
           echo "team_name=${TEAM}" >> "$GITHUB_OUTPUT"
           echo "org_name=${ORG}" >> "$GITHUB_OUTPUT"
 
-
-
       - name: Apply Naming Convention
         id: repo-naming-convention
         run: |
+          # Check if repo_name, team_name, or org_name are null or empty
+          if [[ -z "${{ steps.issue-values.outputs.repo_name }}" ]]; then
+            echo "Error: repo_name is null or empty"
+            exit 1
+          fi
+          if [[ -z "${{ steps.issue-values.outputs.team_name }}" ]]; then
+            echo "Error: team_name is null or empty"
+            exit 1
+          fi
+          if [[ -z "${{ steps.issue-values.outputs.org_name }}" ]]; then
+            echo "Error: org_name is null or empty"
+            exit 1
+          fi  
+
           # Install yq to parse YAML files
           sudo snap install yq
       
