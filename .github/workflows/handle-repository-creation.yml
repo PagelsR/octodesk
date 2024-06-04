@@ -67,7 +67,12 @@ jobs:
           echo "team_name=${TEAM}" >> "$GITHUB_OUTPUT"
 
 
-
+      # Designed to map the team name and repository owner to their respective abbreviations as
+      # defined in the naming-convention.yml file. It then constructs a final name by concatenating
+      # the organization abbreviation, team abbreviation, and repository name. The final name is then
+      # written to an output file specified by the GITHUB_OUTPUT environment variable.
+      #
+      # TODO! Fix the mapping of the team name and repository owner to their respective abbreviations
       - name: Apply Naming Convention
         id: repo-naming-convention
         run: |
