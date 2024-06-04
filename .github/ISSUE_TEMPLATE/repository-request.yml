@@ -22,28 +22,10 @@ body:
       default: 2
     validations:
       required: true
-  - type: dropdown
+  - type: input
     attributes:
       label: Organization
       description: The organization that owns this repository
-      options:
-        - burns-harbor
-        - butler
-        - cleveland
-        - coatesville
-        - columbus
-        - conshohocken
-        - coshocton
-        - Dearborn
-        - indiana-harbor
-        - mansfield
-        - middletown
-        - riverdale
-        - rockport
-        - steelton
-        - tek-kote
-        - weirton
-        - zanesville
     validations:
       required: true
   - type: input
@@ -52,11 +34,9 @@ body:
       description: Name of the Repository
     validations:
       required: true
-  - type: dropdown
+  - type: input
     attributes:
       label: Team
-      options:
-        - first-team
-        - second-team
+      description: Team to add to the repository
     validations:
       required: true
